@@ -1,0 +1,152 @@
+@import "tailwindcss";
+
+/* ── Wildpulse Photographic Tours – Design Tokens ── */
+@theme inline {
+  /* Brand colours */
+  --color-ochre: #C45A1C;
+  --color-ochre-light: #D97B3F;
+  --color-ochre-dark: #9E4515;
+  --color-clay: #FAF5EE;
+  --color-clay-dark: #F0E6D6;
+  --color-fog: #2D2D2D;
+  --color-fog-light: #5A5A5A;
+  --color-sky: #1B3A5C;
+  --color-sky-light: #2A5580;
+  --color-white: #FFFFFF;
+  --color-black: #0A0A0A;
+
+  /* Fonts (set by next/font CSS variables) */
+  --font-serif: var(--font-playfair);
+  --font-sans: var(--font-jakarta);
+}
+
+/* ── Base styles ── */
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-clay);
+  color: var(--color-fog);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Lock scroll when mobile menu is open */
+body.menu-open {
+  overflow: hidden;
+}
+
+/* Ensure all images stay within bounds */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Touch-friendly tap targets */
+@media (pointer: coarse) {
+  a, button, select, input {
+    min-height: 44px;
+  }
+}
+
+/* ── Scroll-triggered reveal animation ── */
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal {
+  opacity: 0;
+}
+
+.reveal.visible {
+  animation: reveal-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Stagger children for grid reveals — children start hidden, parent is just a trigger */
+.reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(32px);
+}
+
+.reveal-stagger.visible > * {
+  animation: reveal-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.reveal-stagger.visible > :nth-child(1) { animation-delay: 0ms; }
+.reveal-stagger.visible > :nth-child(2) { animation-delay: 150ms; }
+.reveal-stagger.visible > :nth-child(3) { animation-delay: 300ms; }
+.reveal-stagger.visible > :nth-child(4) { animation-delay: 450ms; }
+.reveal-stagger.visible > :nth-child(5) { animation-delay: 600ms; }
+.reveal-stagger.visible > :nth-child(6) { animation-delay: 750ms; }
+
+/* ── Masonry grid for gallery ── */
+.masonry {
+  column-count: 1;
+  column-gap: 0.75rem;
+}
+
+@media (min-width: 480px) {
+  .masonry {
+    column-count: 2;
+    column-gap: 1rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .masonry {
+    column-count: 3;
+    column-gap: 1.25rem;
+  }
+}
+
+.masonry > * {
+  break-inside: avoid;
+  margin-bottom: 0.75rem;
+}
+
+@media (min-width: 480px) {
+  .masonry > * {
+    margin-bottom: 1rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .masonry > * {
+    margin-bottom: 1.25rem;
+  }
+}
+
+/* ── Reduce motion for battery & accessibility ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ── Smooth scrollbar ── */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-clay);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-ochre-light);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-ochre);
+}
